@@ -14,6 +14,9 @@ public class CustomerService {
         // Scenario: 
         // Expected Result: 
         Console.WriteLine("Test 1");
+        var cs1 = new CustomerService(0);
+        Console.WriteLine(cs1);
+        // Expected: max_size=10
 
         // Defect(s) Found: 
 
@@ -23,12 +26,28 @@ public class CustomerService {
         // Scenario: 
         // Expected Result: 
         Console.WriteLine("Test 2");
+        var cs2 = new CustomerService(1);
+
+        // First customer (should succeed)
+        cs2.AddNewCustomer();
+
+        // Second customer (should fail – queue full)
+        cs2.AddNewCustomer();
 
         // Defect(s) Found: 
 
         Console.WriteLine("=================");
 
         // Add more Test Cases As Needed Below
+        
+         // Test 3
+        // Scenario: Serve customer from empty queue
+        // Expected Result: Error message, no crash
+        Console.WriteLine("Test 3");
+        var cs3 = new CustomerService(5);
+        cs3.ServeCustomer();
+
+        Console.WriteLine("=================");
     }
 
     private readonly List<Customer> _queue = new();
@@ -67,7 +86,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count >= _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
@@ -88,8 +107,15 @@ public class CustomerService {
     /// Dequeue the next customer and display the information.
     /// </summary>
     private void ServeCustomer() {
-        _queue.RemoveAt(0);
+         // ✅ FIX: Check for empty queue
+        if (_queue.Count == 0) {
+            Console.WriteLine("No customers in the queue.");
+            return;
+        }
+
+        // ✅ FIX: Get customer BEFORE removing
         var customer = _queue[0];
+        _queue.RemoveAt(0);
         Console.WriteLine(customer);
     }
 
