@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 /// <summary>
 /// Defines a maze using a dictionary. The dictionary is provided by the
 /// user when the Maze object is created. The dictionary will contain the
@@ -33,6 +35,20 @@ public class Maze
     public void MoveLeft()
     {
         // FILL IN CODE
+        var invalidMoves = new HashSet<(int, int)>
+        {
+            (2, 3),
+            (3, 5), (3, 6),
+            (4, 1), (4, 3),
+            (5, 2), (5, 5), (5, 6)
+        };
+
+        if (_currX == 1 || invalidMoves.Contains((_currX, _currY)))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        _currX--;
     }
 
     /// <summary>
@@ -42,6 +58,20 @@ public class Maze
     public void MoveRight()
     {
         // FILL IN CODE
+        var invalidMoves = new HashSet<(int, int)>
+        {
+            (1, 5), (1, 6),
+            (2, 1), (2, 2), (2, 3),
+            (3, 5), (3, 6),
+            (5, 2), (5, 4), (5, 5)
+        };
+
+        if (_currX == 6 || invalidMoves.Contains((_currX, _currY)))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        _currX++;
     }
 
     /// <summary>
@@ -51,6 +81,19 @@ public class Maze
     public void MoveUp()
     {
         // FILL IN CODE
+        var invalidMoves = new HashSet<(int, int)>
+        {
+            (4, 3), (6, 3),
+            (1, 4), (3, 4),
+            (6, 6)
+        };
+
+        if (_currY == 1 || invalidMoves.Contains((_currX, _currY)))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        _currY--;
     }
 
     /// <summary>
@@ -60,6 +103,20 @@ public class Maze
     public void MoveDown()
     {
         // FILL IN CODE
+        var invalidMoves = new HashSet<(int, int)>
+        {
+            (4, 1), (6, 1),
+            (1, 2),
+            (6, 3),
+            (2, 4), (4, 4)
+        };
+    
+        if (_currY == 6 || invalidMoves.Contains((_currX, _currY)))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+    
+        _currY++;
     }
 
     public string GetStatus()
